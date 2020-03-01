@@ -1,25 +1,25 @@
 <?php
 
 //Пробуем создать директории 
-if (!mkdir('fileTransferred', 0777, true) && !is_dir('fileTransferred')){
+if (!mkdir('fileTransferred', 0777, true) && !is_dir('fileTransferred')) {
 	echo '"fileTransferred" not created' . PHP_EOL;
 }
-if (!mkdir('result', 0777, true) && !is_dir('fileTransferred')){
+if (!mkdir('result', 0777, true) && !is_dir('fileTransferred')) {
 	echo '"result" not created' . PHP_EOL;
 }
 
 // Для создания уникального имени файла 
-	$time = time();
-	$timef = $time + 2;
+$time = time();
+$timef = $time + 2;
 
- $text = $_POST['text'];
- $textFile = $_FILES['docs'];
+$text = $_POST['text'];
+$textFile = $_FILES['docs'];
 
 // создаём переданный файл в директории "fileTransferred" 
-if (!empty($_FILES['docs']['name'])){
+if (!empty($_FILES['docs']['name'])) {
 	$docs = $_FILES['docs'];
-	foreach ($docs['tmp_name'] as $index => $tmpPath){
-		if (!array_key_exists($index, $docs['name'])){
+	foreach ($docs['tmp_name'] as $index => $tmpPath) {
+		if (!array_key_exists($index, $docs['name'])) {
 			continue;
 		}
 		move_uploaded_file($tmpPath, __DIR__ . DIRECTORY_SEPARATOR . 'fileTransferred' . DIRECTORY_SEPARATOR . $docs['name'][$index]);
@@ -27,21 +27,21 @@ if (!empty($_FILES['docs']['name'])){
 }
 
 // Функция,которая принимает текст и возвращает массив(ключ=>слово, значение=>количество вхождений + всего слов) 
-function analysis($randText){
-$textLover = mb_strtolower($randText);
-$finishedText = str_replace(['!', '?', ':', ',', '.'], "", $textLover);	
-$arrayFT = explode(' ', $finishedText);
-global $count; 
-$count = count($arrayFT);
-$array0 = [];
-foreach ($arrayFT as $word){
-	if (isset($array0[$word])){
-		$array0[$word]++;
-	} else {
-		$array0[$word] = 1;
+function analysis($randText) {
+	$textLover = mb_strtolower($randText);
+	$finishedText = str_replace(['!', '?', ':', ',', '.'], "", $textLover);	
+	$arrayFT = explode(' ', $finishedText);
+	global $count; 
+	$count = count($arrayFT);
+	$array0 = [];
+	foreach ($arrayFT as $word) {
+		if (isset($array0[$word])) {
+			$array0[$word]++;
+		} else {
+			$array0[$word] = 1;
+		}
 	}
-}
-return $array0;
+	return $array0;
 }
 
 // Путь по которому будет создан обработанный файл 
@@ -49,14 +49,13 @@ $dir = __DIR__ . DIRECTORY_SEPARATOR .'result' . DIRECTORY_SEPARATOR . $time . '
 $dirf = __DIR__ . DIRECTORY_SEPARATOR .'result' . DIRECTORY_SEPARATOR . $timef . '.csv';
 
 // Проверка на наличии текста из формы и запись результата в отдельный файл
-if (!($text == "")){
+if (!($text == "")) {
 	touch("{$time}.csv");
 	$file = fopen("{$time}.csv", "w");
-	foreach (analysis($text) as $a => $b){
-	fwrite($file, "{$a}: {$b}" . PHP_EOL);
+	foreach (analysis($text) as $a => $b) {
+		fwrite($file, "{$a}: {$b}" . PHP_EOL);
 	}
 	fwrite($file, "Всего слов: " . $count);
-
 	fclose($file);
 	copy("{$time}.csv", $dir);
 	unlink("{$time}.csv");
@@ -68,11 +67,11 @@ $t = file_get_contents($file_dir);
 $get  = mb_detect_encoding($t, array('utf-8', 'cp1251'));
 
 // Проверка на наличии текста из переданного файла и запись результата в отдельный файл
-if (isset($textFile)){
+if (isset($textFile)) {
 	touch("{$timef}.csv");
 	$file = fopen("{$timef}.csv", "w");
-	foreach (analysis(iconv($get,'UTF-8',$t)) as $a => $b){
-	fwrite($file, "{$a}: {$b}" . PHP_EOL);
+	foreach (analysis(iconv($get,'UTF-8',$t)) as $a => $b) {
+		fwrite($file, "{$a}: {$b}" . PHP_EOL);
 	}
 	fwrite($file, "Всего слов: " . $count);
 	fclose($file);
@@ -81,7 +80,7 @@ if (isset($textFile)){
 }
 
 // Удаляем переданный файл. Если удаление не требуется => удалить следующую строчку
- unlink(__DIR__ . DIRECTORY_SEPARATOR . 'fileTransferred' . DIRECTORY_SEPARATOR . $docs['name']['0']);
+unlink(__DIR__ . DIRECTORY_SEPARATOR . 'fileTransferred' . DIRECTORY_SEPARATOR . $docs['name']['0']);
 
  // Переходим на страницу index.php
- header('Location: index.php');
+header('Location: index.php');
