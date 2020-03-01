@@ -1,5 +1,13 @@
 <?php
 
+//Пробуем создать директории 
+if (!mkdir('fileTransferred', 0777, true) && !is_dir('fileTransferred')){
+	echo '"fileTransferred" not created' . PHP_EOL;
+}
+if (!mkdir('result', 0777, true) && !is_dir('fileTransferred')){
+	echo '"result" not created' . PHP_EOL;
+}
+
 // Для создания уникального имени файла 
 	$time = time();
 	$timef = $time + 2;
@@ -74,3 +82,6 @@ if (isset($textFile)){
 
 // Удаляем переданный файл. Если удаление не требуется => удалить следующую строчку
  unlink(__DIR__ . DIRECTORY_SEPARATOR . 'fileTransferred' . DIRECTORY_SEPARATOR . $docs['name']['0']);
+
+ // Переходим на страницу index.php
+ header('Location: index.php');
