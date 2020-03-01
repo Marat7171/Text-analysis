@@ -1,27 +1,15 @@
-<?php
-$text = "Когда человек сознательно или интуитивно выбирает себе в жизни какую-то цель, жизненную задачу, он невольно дает себе оценку. По тому, ради чего человек живет, можно судить и о его самооценке: низкой или высокой. Если человек живет, чтобы приносить людям добро, облегчать их страдания, давать людям радость, то он оценивает себя на уровне этой своей человечности. Он ставит себе цель, достойную человека. Только такая цель позволяет человеку прожить свою жизнь с достоинством и получить настоящую радость. Да, радость! Подумайте: если человек ставит себе задачей увеличивать в жизни добро, приносить людям счастье, какие неудачи могут его постигнуть? Не тому помочь? Но много ли людей не нуждаются в помощи? Если жить только для себя, своими мелкими заботами о собственном благополучии, то от прожитого не останется и следа.";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MyForm</title>
+</head>
+<body>
 
-$textLover = mb_strtolower($text);
-
-$finishedText = str_replace(['!', '?', ':', ',', '.'], "", $textLover);	
-
-$arrayFT = explode(' ', $finishedText);
-
-$count = count($arrayFT);
-
-$array0 = [];
-
-foreach ($arrayFT as $word){
-	if (isset($array0[$word])){
-		$array0[$word]++;
-	} else {
-		$array0[$word] = 1;
-	}
-}
-
-	// Вывод на экран
-foreach ($array0 as $key => $value){
-	echo "{$key}: {$value}" . PHP_EOL;
-}
-echo PHP_EOL;
-echo "Всего слов: " . $count;
+<form method="post" enctype="multipart/form-data" action="textAnalysis.php">
+	<textarea name="text" placeholder="Enter text for analysis"></textarea><br>
+	<input type="file" name="docs[]" multiple><br>
+	<input type="submit">
+	
+</body>
+</html>
